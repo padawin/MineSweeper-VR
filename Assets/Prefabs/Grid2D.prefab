@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3809925339748403095}
   - component: {fileID: 3809925339748403094}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: Grid2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,4 +47,5 @@ MonoBehaviour:
     type: 3}
   width: 10
   height: 10
-  cellSpacing: 0.1
+  depth: 1
+  cellSpacing: 0.01
