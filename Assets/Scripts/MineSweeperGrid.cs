@@ -30,6 +30,7 @@ public class MineSweeperGrid : MonoBehaviour
 						startY + j * (cellHeight + cellSpacing),
 						startZ + k * (cellDepth + cellSpacing)
 					);
+					cell.transform.parent = gameObject.transform;
 					cells.Add(cell);
 				}
 			}
