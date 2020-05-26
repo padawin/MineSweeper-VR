@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class MineSweeperCell : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private int x;
+	private int y;
 
-    void OnTriggerEnter(Collider other) {
-		Debug.Log(other.name);
-    }
+	public void setCoordinates(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
 }

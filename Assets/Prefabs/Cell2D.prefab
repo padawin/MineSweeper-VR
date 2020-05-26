@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9043290073391918997}
   - component: {fileID: 6800487446653698432}
   - component: {fileID: 3263294318600570733}
+  - component: {fileID: -9171045178840162763}
   m_Layer: 8
   m_Name: Cell2D
   m_TagString: Untagged
@@ -110,3 +111,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-9171045178840162763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812326047210161432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a1d1bb61e298f4aa62838a49438b78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

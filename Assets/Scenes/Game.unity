@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &373584928 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3809925339748403094, guid: 66a08be8f1e3f6a42bcc8fe322bfa79e,
+    type: 3}
+  m_PrefabInstance: {fileID: 537773316}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c804d7b94dc958445b4dc2a0c5680bea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &537773316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139,6 +151,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000,
         type: 0}
+    - target: {fileID: 3809925339748403094, guid: 66a08be8f1e3f6a42bcc8fe322bfa79e,
+        type: 3}
+      propertyPath: minesCount
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3809925339748403095, guid: 66a08be8f1e3f6a42bcc8fe322bfa79e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -295,6 +312,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8018293248477526817, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
+        type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 373584928}
     - target: {fileID: 8942158408479209162, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
         type: 3}
       propertyPath: m_Name
