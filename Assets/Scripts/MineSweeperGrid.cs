@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] GameObject cellPrefab;
+	[SerializeField] GameObject revealedCellPrefab;
 	[SerializeField] int width;
 	[SerializeField] int height;
 	[SerializeField] int depth;
@@ -63,16 +64,19 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	public void revealCell(MineSweeperCell cell) {
 		int i = cell.getY() * width + cell.getX();
-		Destroy(cell.gameObject);
 		if (!acted) {
 			acted = true;
 			setMines(i);
 		}
+
+		if (mines[i]) {
+			// Lost
+			Destroy(gameObject);
+		}
 		else {
-			if (mines[i]) {
-				// Lost
-				Destroy(gameObject);
-			}
+			GameObject revealedCell = Instantiate(revealedCellPrefab, cell.gameObject.transform.position, Quaternion.identity);
+			revealedCell.transform.parent = gameObject.transform;
+			Destroy(cell.gameObject);
 		}
 		// TODO show number neighbours
 		// If 0 mines, expand reveal
@@ -90,7 +94,6 @@ public class MineSweeperGrid : MonoBehaviour {
 			mines[candidateIndices[randomIndex]] = true;
 			candidateIndices.RemoveAt(randomIndex);
 		}
-		Debug.Log(mines);
 	}
 }
 

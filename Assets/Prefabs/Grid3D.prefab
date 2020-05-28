@@ -45,7 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 1562126801579375623, guid: d137d881b260a50459c1303504d99fb6,
     type: 3}
+  revealedCellPrefab: {fileID: 1619165939616819333, guid: 1c003fdc204129b4b8b921f160ab0a42,
+    type: 3}
   width: 10
   height: 10
   depth: 10
-  cellSpacing: 0.1
+  cellSpacing: 0.01
+  minesCount: 50
