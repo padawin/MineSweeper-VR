@@ -5,9 +5,14 @@ using UnityEngine;
 public class MineSweeperRevealedCell : MonoBehaviour
 {
 	Camera m_camera;
+	[SerializeField] TextMesh text;
 
 	private void Start() {
 		m_camera = FindObjectOfType<Camera>();
+	}
+
+	public void setValue(int val) {
+		text.text = val.ToString();
 	}
 
 	void Update() {

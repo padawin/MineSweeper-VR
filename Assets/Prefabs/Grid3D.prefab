@@ -49,6 +49,6 @@ MonoBehaviour:
     type: 3}
   width: 10
   height: 10
-  depth: 10
+  depth: 1
   cellSpacing: 0.01
-  minesCount: 50
+  minesCount: 20
