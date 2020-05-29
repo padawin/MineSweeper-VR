@@ -13,8 +13,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] float cellSpacing;
 	[SerializeField] int minesCount = 0;
 
-	List<List<List<bool>>> mines = new List<List<List<bool>>>();
-	List<List<List<GameObject>>> cells = new List<List<List<GameObject>>>();
+	List<List<List<MineSweeperCell>>> cells = new List<List<List<MineSweeperCell>>>();
 	int minesFound = 0;
 
 	// Set to true when the player destroys or marks a mine for the first time
@@ -22,7 +21,6 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
-		initMinesList();
 		instanciateCells();
 	}
 
@@ -42,18 +40,6 @@ public class MineSweeperGrid : MonoBehaviour {
 		return z * (width * height) + y * width + x;
 	}
 
-	void initMinesList() {
-		for (int i = 0; i < width; i++) {
-			mines.Add(new List<List<bool>>());
-			for (int j = 0; j < height; j++) {
-				mines[i].Add(new List<bool>());
-				for (int k = 0; k < depth; k++) {
-					mines[i][j].Add(false);
-				}
-			}
-		}
-	}
-
 	void instanciateCells() {
 		float cellWidth = cellPrefab.transform.localScale.x;
 		float cellHeight = cellPrefab.transform.localScale.y;
@@ -62,9 +48,9 @@ public class MineSweeperGrid : MonoBehaviour {
 		float startY = transform.position.y - (cellHeight * height / 2);
 		float startZ = transform.position.z - (cellDepth * depth);
 		for (int i = 0; i < width; i++) {
-			cells.Add(new List<List<GameObject>>());
+			cells.Add(new List<List<MineSweeperCell>>());
 			for (int j = 0; j < height; j++) {
-				cells[i].Add(new List<GameObject>());
+				cells[i].Add(new List<MineSweeperCell>());
 				for (int k = 0; k < depth; k++) {
 					GameObject cell = Instantiate(cellPrefab, transform.position, Quaternion.identity);
 					cell.transform.position = new Vector3(
@@ -73,8 +59,9 @@ public class MineSweeperGrid : MonoBehaviour {
 						startZ + k * (cellDepth + cellSpacing)
 					);
 					cell.transform.parent = gameObject.transform;
-					cell.GetComponent<MineSweeperCell>().setCoordinates(i, j, k);
-					cells[i][j].Add(cell);
+					MineSweeperCell cellComponent = cell.GetComponent<MineSweeperCell>();
+					cellComponent.setCoordinates(i, j, k);
+					cells[i][j].Add(cellComponent);
 				}
 			}
 		}
@@ -89,16 +76,13 @@ public class MineSweeperGrid : MonoBehaviour {
 			setMines(x, y, z);
 		}
 
-		Debug.Log(mines[x][y][z]);
-		if (mines[x][y][z]) {
+		if (cell.hasMine()) {
 			// Lost
-			//Destroy(gameObject);
+			Destroy(gameObject);
 		}
 		else {
-			replaceCellWithRevealed(cell);
+			replaceCellWithRevealed(x, y, z);
 		}
-		// TODO show number neighbours
-		// If 0 mines, expand reveal
 	}
 
 	private int countNeighbourMines(int x, int y, int z) {
@@ -112,8 +96,7 @@ public class MineSweeperGrid : MonoBehaviour {
 					) {
 						continue;
 					}
-					int index = getCellIndex(i, j, k);
-					if (mines[i][j][k]) {
+					if (cells[i][j][k].hasMine()) {
 						neighbours++;
 					}
 				}
@@ -122,9 +105,10 @@ public class MineSweeperGrid : MonoBehaviour {
 		return neighbours;
 	}
 
-	private void replaceCellWithRevealed(MineSweeperCell cell, int limit = 20) {
-		Destroy(cell.gameObject);
-		int nbNeighbourMines = countNeighbourMines(cell.getX(), cell.getY(), cell.getZ());
+	private void replaceCellWithRevealed(int x, int y, int z) {
+		MineSweeperCell cell = cells[x][y][z];
+		cell.setState(CellState.revealed);
+		int nbNeighbourMines = countNeighbourMines(x, y, z);
 		if (nbNeighbourMines > 0) {
 			GameObject revealedCell = Instantiate(revealedCellPrefab, cell.gameObject.transform.position, Quaternion.identity);
 			revealedCell.GetComponent<MineSweeperRevealedCell>().setValue(nbNeighbourMines);
@@ -132,7 +116,23 @@ public class MineSweeperGrid : MonoBehaviour {
 		}
 		else {
 			// TODO handle recursive revealing
+			List<MineSweeperCell> neighboursToReveal = new List<MineSweeperCell>();
+			for (int k = z - 1; k <= z + 1; k++) {
+				for (int j = y - 1; j <= y + 1; j++) {
+					for (int i = x - 1; i <= x + 1; i++) {
+						if (i < 0 || j < 0 || k < 0 ||
+							i >= width || j >= height || k >= depth ||
+							(i == x && j == y && k == z) ||
+							cells[i][j][k].getState() != CellState.initial
+						) {
+							continue;
+						}
+						replaceCellWithRevealed(i, j, k);
+					}
+				}
+			}
 		}
+		Destroy(cell.gameObject);
 	}
 
 	private void setMines(int xToExclude, int yToExclude, int zToExclude) {
@@ -163,7 +163,7 @@ public class MineSweeperGrid : MonoBehaviour {
 			int yx = cellIndex % (width * height);
 			int y = yx / width;
 			int x = yx % width;
-			mines[x][y][z] = true;
+			cells[x][y][z].setMine();
 			candidateIndices.RemoveAt(randomIndex);
 		}
 	}
