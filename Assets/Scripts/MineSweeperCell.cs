@@ -4,14 +4,21 @@ using UnityEngine;
 
 public enum CellState { initial, flagged, potentialFlag, revealed };
 
-public class MineSweeperCell : MonoBehaviour
-{
+public class MineSweeperCell : MonoBehaviour {
 	private int x;
 	private int y;
 	private int z;
 
 	private bool mine = false;
 	private CellState state = CellState.initial;
+	private MeshRenderer meshRenderer;
+
+	[SerializeField] Material defaultMaterial;
+	[SerializeField] Material hoveredMaterial;
+
+	private void Start() {
+		meshRenderer = GetComponent<MeshRenderer>();
+	}
 
 	public void setCoordinates(int x, int y, int z) {
 		this.x = x;
@@ -45,5 +52,14 @@ public class MineSweeperCell : MonoBehaviour
 
 	public void setState(CellState newState) {
 		state = newState;
+	}
+
+	public void setHovered(bool hovered) {
+		if (hovered) {
+			meshRenderer.material = hoveredMaterial;
+		}
+		else {
+			meshRenderer.material = defaultMaterial;
+		}
 	}
 }
