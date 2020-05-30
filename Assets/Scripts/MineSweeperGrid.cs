@@ -115,7 +115,6 @@ public class MineSweeperGrid : MonoBehaviour {
 			revealedCell.transform.parent = gameObject.transform;
 		}
 		else {
-			// TODO handle recursive revealing
 			List<MineSweeperCell> neighboursToReveal = new List<MineSweeperCell>();
 			for (int k = z - 1; k <= z + 1; k++) {
 				for (int j = y - 1; j <= y + 1; j++) {
