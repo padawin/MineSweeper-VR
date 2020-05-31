@@ -61,7 +61,7 @@ public class MineSweeperGrid : MonoBehaviour {
 		float cellDepth = cellPrefab.transform.localScale.z;
 		float startX = transform.position.x - (cellWidth * width / 2);
 		float startY = transform.position.y - (cellHeight * height / 2);
-		float startZ = transform.position.z - (cellDepth * depth);
+		float startZ = transform.position.z - (cellDepth * depth / 2);
 		for (int i = 0; i < width; i++) {
 			cells.Add(new List<List<MineSweeperCell>>());
 			for (int j = 0; j < height; j++) {
