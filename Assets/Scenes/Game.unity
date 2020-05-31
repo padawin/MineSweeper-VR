@@ -295,6 +295,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6706350387016028525, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
+        type: 3}
+      propertyPath: translationSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706350387016028525, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
+        type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1628734519}
+    - target: {fileID: 7328867820222581929, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7328867820222581929, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
+        type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 1628734519}
     - target: {fileID: 8018293248477526817, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
         type: 3}
       propertyPath: grid
