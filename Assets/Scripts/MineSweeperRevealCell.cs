@@ -6,8 +6,12 @@ public class MineSweeperRevealCell : MonoBehaviour
 {
 	[SerializeField] float vibrationFrequency = 0.5f;
 	[SerializeField] float vibrationAmplitude = 0.5f;
-	[SerializeField] MineSweeperGrid grid;
+	MineSweeperGrid grid;
 	List<MineSweeperCell> hoveredCells = new List<MineSweeperCell>();
+
+	private void Start() {
+		grid = GameObject.FindGameObjectWithTag("grid").GetComponent<MineSweeperGrid>();
+	}
 
 	void OnTriggerEnter(Collider other) {
 		MineSweeperCell cell = other.GetComponent<MineSweeperCell>();
