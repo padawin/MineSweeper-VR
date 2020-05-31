@@ -12,6 +12,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] int depth;
 	[SerializeField] float cellSpacing;
 	[SerializeField] int minesCount = 0;
+	[SerializeField] float initialDistanceFromPlayer = 2.0f;
 
 	List<List<List<MineSweeperCell>>> cells = new List<List<List<MineSweeperCell>>>();
 	int minesFound = 0;
@@ -21,7 +22,21 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	// Start is called before the first frame update
 	void Start() {
+		positionGrid();
 		instanciateCells();
+	}
+
+	private void positionGrid() {
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		float cellDepth = cellPrefab.transform.localScale.z;
+		float initialZ = player.transform.position.z
+						 + initialDistanceFromPlayer
+						 + (depth / 2) * (cellDepth + cellSpacing);
+		transform.position = new Vector3(
+			player.transform.position.x,
+			player.transform.position.y,
+			initialZ
+		);
 	}
 
 	int getSize() {
