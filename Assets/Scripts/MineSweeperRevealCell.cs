@@ -15,8 +15,6 @@ public class MineSweeperRevealCell : MonoBehaviour
 	}
 
 	private void Update() {
-		if (OVRInput.Get(OVRInput.RawButton.RIndexTrigger, OVRInput.Controller.RTouch)) {
-			playerControl.reveal(grid);
-		}
+		playerControl.reveal(grid, OVRInput.Controller.RTouch, OVRInput.RawButton.RIndexTrigger);
 	}
 }
