@@ -16,7 +16,7 @@ public class MineSweeperRotateGrid : MonoBehaviour
 		Vector2 stickState = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);
 		grid.transform.Rotate(new Vector3(
 			stickState.y * rotationSpeed * Time.deltaTime,
-			stickState.x * rotationSpeed * Time.deltaTime,
+			-stickState.x * rotationSpeed * Time.deltaTime,
 			0.0f
 		));
     }
