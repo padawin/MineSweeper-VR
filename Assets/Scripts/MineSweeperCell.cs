@@ -14,7 +14,8 @@ public class MineSweeperCell : MonoBehaviour {
 	private MeshRenderer meshRenderer;
 
 	[SerializeField] Material defaultMaterial;
-	[SerializeField] Material hoveredMaterial;
+	[SerializeField] Material flaggedMaterial;
+	[SerializeField] Material potentiallyFlaggedMaterial;
 
 	private void Start() {
 		meshRenderer = GetComponent<MeshRenderer>();
@@ -46,6 +47,21 @@ public class MineSweeperCell : MonoBehaviour {
 		mine = true;
 	}
 
+	public void mark() {
+		if (state == CellState.initial) {
+			state = CellState.flagged;
+			meshRenderer.material = flaggedMaterial;
+		}
+		else if (state == CellState.flagged) {
+			state = CellState.potentialFlag;
+			meshRenderer.material = potentiallyFlaggedMaterial;
+		}
+		else if (state == CellState.potentialFlag) {
+			state = CellState.initial;
+			meshRenderer.material = defaultMaterial;
+		}
+	}
+
 	public CellState getState() {
 		return state;
 	}
@@ -56,10 +72,12 @@ public class MineSweeperCell : MonoBehaviour {
 
 	public void setHovered(bool hovered) {
 		if (hovered) {
-			meshRenderer.material = hoveredMaterial;
+			meshRenderer.material.EnableKeyword("_EMISSION");
+			meshRenderer.material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.AnyEmissive;
 		}
 		else {
-			meshRenderer.material = defaultMaterial;
+			meshRenderer.material.DisableKeyword("_EMISSION");
+			meshRenderer.material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
 		}
 	}
 }

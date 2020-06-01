@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class MineSweeperMarkCell : MonoBehaviour
 {
-	void OnTriggerEnter(Collider other) {
-		Debug.Log(other.name);
+	MineSweeperGrid grid;
+	MineSweeperControl playerControl;
+
+	private void Start() {
+		playerControl = GetComponent<MineSweeperControl>();
+		grid = GameObject.FindGameObjectWithTag("grid").GetComponent<MineSweeperGrid>();
+	}
+
+	private void Update() {
+		playerControl.mark(OVRInput.Controller.LTouch, OVRInput.RawButton.LIndexTrigger);
 	}
 }
