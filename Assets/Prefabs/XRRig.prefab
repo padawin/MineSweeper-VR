@@ -128,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae449501ecb1d9a41ab1ed3edba0c9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 0}
   rotationSpeed: -80
 --- !u!1 &6169087800714178762
 GameObject:
@@ -144,6 +143,7 @@ GameObject:
   - component: {fileID: 1142632133089167732}
   - component: {fileID: 4746660356203524627}
   - component: {fileID: 8018293248477526817}
+  - component: {fileID: 867371445432979949}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -255,7 +255,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vibrationFrequency: 0.5
   vibrationAmplitude: 0.5
-  grid: {fileID: 0}
+--- !u!114 &867371445432979949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6169087800714178762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36416ccb6a9c28b49a9a2eeffb5a27c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vibrationFrequency: 0.5
+  vibrationAmplitude: 0.5
 --- !u!1 &6617136618156211138
 GameObject:
   m_ObjectHideFlags: 0
