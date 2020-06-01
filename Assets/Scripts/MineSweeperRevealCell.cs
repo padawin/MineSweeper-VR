@@ -15,6 +15,12 @@ public class MineSweeperRevealCell : MonoBehaviour
 	}
 
 	private void Update() {
-		playerControl.reveal(grid, OVRInput.Controller.RTouch, OVRInput.RawButton.RIndexTrigger);
+		playerControl.execute(reveal, OVRInput.Controller.RTouch, OVRInput.RawButton.RIndexTrigger);
+	}
+
+	public void reveal(MineSweeperCell cell) {
+		if (cell.getState() == CellState.initial) {
+			grid.revealCell(cell);
+		}
 	}
 }

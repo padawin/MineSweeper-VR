@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,10 @@ public class MineSweeperMarkCell : MonoBehaviour
 	}
 
 	private void Update() {
-		playerControl.mark(OVRInput.Controller.LTouch, OVRInput.RawButton.LIndexTrigger);
+		playerControl.execute(mark, OVRInput.Controller.LTouch, OVRInput.RawButton.LIndexTrigger);
+	}
+
+	private void mark(MineSweeperCell cell) {
+		cell.mark();
 	}
 }

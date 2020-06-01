@@ -23,20 +23,6 @@ public class MineSweeperControl : MonoBehaviour
 		hoveredCells.Remove(cell);
 	}
 
-	public void reveal(MineSweeperGrid grid, OVRInput.Controller controller, OVRInput.RawButton button) {
-		void callback(MineSweeperCell cell) {
-			grid.revealCell(cell);
-		}
-		execute(callback, controller, button);
-	}
-
-	public void mark(OVRInput.Controller controller, OVRInput.RawButton button) {
-		void callback(MineSweeperCell cell) {
-			cell.mark();
-		}
-		execute(callback, controller, button);
-	}
-
 	public void execute(System.Action<MineSweeperCell> callback, OVRInput.Controller controller, OVRInput.RawButton button) {
 		bool controllerPressed = OVRInput.Get(button, controller);
 		if (!executed && controllerPressed) {
