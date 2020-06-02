@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MineSweeperRevealCell : MonoBehaviour
 {
-	[SerializeField] float vibrationFrequency = 0.5f;
-	[SerializeField] float vibrationAmplitude = 0.5f;
 	MineSweeperGrid grid;
 	MineSweeperControl playerControl;
 
