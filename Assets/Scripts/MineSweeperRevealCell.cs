@@ -13,7 +13,7 @@ public class MineSweeperRevealCell : MonoBehaviour
 	}
 
 	private void Update() {
-		playerControl.execute(reveal, OVRInput.Controller.RTouch, OVRInput.RawButton.RIndexTrigger);
+		playerControl.execute(reveal);
 	}
 
 	public void reveal(MineSweeperCell cell) {

@@ -14,7 +14,7 @@ public class MineSweeperMarkCell : MonoBehaviour
 	}
 
 	private void Update() {
-		playerControl.execute(mark, OVRInput.Controller.LTouch, OVRInput.RawButton.LIndexTrigger);
+		playerControl.execute(mark);
 	}
 
 	private void mark(MineSweeperCell cell) {

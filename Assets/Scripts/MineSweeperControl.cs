@@ -7,6 +7,8 @@ public class MineSweeperControl : MonoBehaviour
 	[SerializeField] float vibrationFrequency = 0.5f;
 	[SerializeField] float vibrationAmplitude = 0.5f;
 	[SerializeField] bool cleanAfterExecution = false;
+	[SerializeField] OVRInput.Controller controller;
+	[SerializeField] OVRInput.RawButton button;
 
 	List<MineSweeperCell> hoveredCells = new List<MineSweeperCell>();
 	bool executed = false;
@@ -23,7 +25,7 @@ public class MineSweeperControl : MonoBehaviour
 		hoveredCells.Remove(cell);
 	}
 
-	public void execute(System.Action<MineSweeperCell> callback, OVRInput.Controller controller, OVRInput.RawButton button) {
+	public void execute(System.Action<MineSweeperCell> callback) {
 		bool controllerPressed = OVRInput.Get(button, controller);
 		if (!executed && controllerPressed) {
 			if (hoveredCells.Count == 0) {
