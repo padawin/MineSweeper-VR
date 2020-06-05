@@ -4,6 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+struct GridCoordinate {
+	public int x;
+	public int y;
+	public int z;
+	public GridCoordinate(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+}
+
 public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] GameObject cellPrefab;
 	[SerializeField] GameObject revealedCellPrefab;
@@ -98,6 +109,22 @@ public class MineSweeperGrid : MonoBehaviour {
 		else {
 			replaceCellWithRevealed(x, y, z);
 		}
+	}
+
+	public void addFoundMine() {
+		minesFound++;
+	}
+
+	public void removeFoundMine() {
+		minesFound--;
+	}
+
+	public int getCountUnfoundMines() {
+		return minesCount - minesFound;
+	}
+
+	public bool hasUnfoundMines() {
+		return minesCount > minesFound;
 	}
 
 	private IEnumerable<GridCoordinate> neighbourIndices(int x, int y, int z) {
