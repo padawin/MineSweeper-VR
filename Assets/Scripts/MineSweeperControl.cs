@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class MineSweeperControl : MonoBehaviour
 {
-	[SerializeField] float vibrationFrequency = 0.5f;
-	[SerializeField] float vibrationAmplitude = 0.5f;
+	[SerializeField] float hoverVibrationFrequency = 0.1f;
+	[SerializeField] float hoverVibrationAmplitude = 0.1f;
+	[SerializeField] float executeVibrationFrequency = 0.5f;
+	[SerializeField] float executeVibrationAmplitude = 0.5f;
 	[SerializeField] bool cleanAfterExecution = false;
 	[SerializeField] OVRInput.Controller controller;
 	[SerializeField] OVRInput.RawButton button;
@@ -17,12 +19,16 @@ public class MineSweeperControl : MonoBehaviour
 		MineSweeperCell cell = other.GetComponent<MineSweeperCell>();
 		cell.setHovered(true);
 		hoveredCells.Add(cell);
+		OVRInput.SetControllerVibration(hoverVibrationFrequency, hoverVibrationAmplitude, controller);
+		StartCoroutine("stopVibrating", controller);
 	}
 
 	void OnTriggerExit(Collider other) {
 		MineSweeperCell cell = other.GetComponent<MineSweeperCell>();
 		cell.setHovered(false);
 		hoveredCells.Remove(cell);
+		OVRInput.SetControllerVibration(executeVibrationFrequency, executeVibrationAmplitude, controller);
+		StartCoroutine("stopVibrating", controller);
 	}
 
 	public void execute(System.Action<MineSweeperCell> callback) {
@@ -35,7 +41,7 @@ public class MineSweeperControl : MonoBehaviour
 				callback(cell);
 			}
 			if (hoveredCells.Count > 0) {
-				OVRInput.SetControllerVibration(vibrationFrequency, vibrationAmplitude, controller);
+				OVRInput.SetControllerVibration(executeVibrationFrequency, executeVibrationAmplitude, controller);
 				StartCoroutine("stopVibrating", controller);
 			}
 			if (cleanAfterExecution) {
