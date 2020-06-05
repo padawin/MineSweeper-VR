@@ -100,21 +100,30 @@ public class MineSweeperGrid : MonoBehaviour {
 		}
 	}
 
-	private int countNeighbourMines(int x, int y, int z) {
-		int neighbours = 0;
+	private IEnumerable<GridCoordinate> neighbourIndices(int x, int y, int z) {
 		for (int k = z - 1; k <= z + 1; k++) {
 			for (int j = y - 1; j <= y + 1; j++) {
 				for (int i = x - 1; i <= x + 1; i++) {
-					if (i < 0 || j < 0 || k < 0 ||
-						i >= width || j >= height || k >= depth ||
-						i == x && j == y && k == z
-					) {
-						continue;
-					}
-					if (cells[i][j][k].hasMine()) {
-						neighbours++;
-					}
+					yield return new GridCoordinate(i, j, k);
 				}
+			}
+		}
+	}
+
+	private int countNeighbourMines(int x, int y, int z) {
+		int neighbours = 0;
+		foreach (GridCoordinate coord in neighbourIndices(x, y, z)) {
+			int i = coord.x;
+			int j = coord.y;
+			int k = coord.z;
+			if (i < 0 || j < 0 || k < 0 ||
+				i >= width || j >= height || k >= depth ||
+				i == x && j == y && k == z
+			) {
+				continue;
+			}
+			if (cells[i][j][k].hasMine()) {
+				neighbours++;
 			}
 		}
 		return neighbours;
@@ -131,19 +140,18 @@ public class MineSweeperGrid : MonoBehaviour {
 		}
 		else {
 			List<MineSweeperCell> neighboursToReveal = new List<MineSweeperCell>();
-			for (int k = z - 1; k <= z + 1; k++) {
-				for (int j = y - 1; j <= y + 1; j++) {
-					for (int i = x - 1; i <= x + 1; i++) {
-						if (i < 0 || j < 0 || k < 0 ||
-							i >= width || j >= height || k >= depth ||
-							(i == x && j == y && k == z) ||
-							cells[i][j][k].getState() != CellState.initial
-						) {
-							continue;
-						}
-						replaceCellWithRevealed(i, j, k);
-					}
+			foreach (GridCoordinate coord in neighbourIndices(x, y, z)) {
+				int i = coord.x;
+				int j = coord.y;
+				int k = coord.z;
+				if (i < 0 || j < 0 || k < 0 ||
+					i >= width || j >= height || k >= depth ||
+					(i == x && j == y && k == z) ||
+					cells[i][j][k].getState() != CellState.initial
+				) {
+					continue;
 				}
+				replaceCellWithRevealed(i, j, k);
 			}
 		}
 		Destroy(cell.gameObject);
@@ -154,18 +162,17 @@ public class MineSweeperGrid : MonoBehaviour {
 		var candidateIndices = Enumerable.Range(0, size).ToList();
 		System.Random rnd = new System.Random();
 
-		for (int k = zToExclude - 1; k <= zToExclude + 1; k++) {
-			for (int j = yToExclude - 1; j <= yToExclude + 1; j++) {
-				for (int i = xToExclude - 1; i <= xToExclude + 1; i++) {
-					if (i < 0 || j < 0 || k < 0 ||
-						i >= width || j >= height || k >= depth
-					) {
-						continue;
-					}
-					int cellToRemove = getCellIndex(i, j, k);
-					candidateIndices.Remove(cellToRemove);
-				}
+		foreach (GridCoordinate coord in neighbourIndices(xToExclude, yToExclude, zToExclude)) {
+			int i = coord.x;
+			int j = coord.y;
+			int k = coord.z;
+			if (i < 0 || j < 0 || k < 0 ||
+				i >= width || j >= height || k >= depth
+			) {
+				continue;
 			}
+			int cellToRemove = getCellIndex(i, j, k);
+			candidateIndices.Remove(cellToRemove);
 		}
 
 		for (int m = 0; m < minesCount && candidateIndices.Count > 0; m++) {
