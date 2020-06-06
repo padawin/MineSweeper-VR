@@ -100,6 +100,8 @@ public class MineSweeperGrid : MonoBehaviour {
 		if (!acted) {
 			acted = true;
 			setMines(x, y, z);
+			GameObject context = GameObject.FindGameObjectWithTag("gameContext");
+			context.GetComponent<MineSweeperContext>().startTimer();
 		}
 
 		if (cell.hasMine()) {
