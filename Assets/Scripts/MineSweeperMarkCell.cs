@@ -16,7 +16,9 @@ public class MineSweeperMarkCell : MonoBehaviour
 	}
 
 	private void Update() {
-		playerControl.execute(mark);
+		if (grid.isActive()) {
+			playerControl.execute(mark);
+		}
 	}
 
 	private void mark(MineSweeperCell cell) {

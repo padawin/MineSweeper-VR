@@ -35,4 +35,15 @@ public class MineSweeperContext : MonoBehaviour
 			minutes, seconds.ToString("00"), ms.ToString("000")
 		);
 	}
+
+	public void setWon() {
+		running = false;
+		// save time
+		// display menu with win option
+	}
+
+	public void setLost() {
+		running = false;
+		// display menu with lost option
+	}
 }

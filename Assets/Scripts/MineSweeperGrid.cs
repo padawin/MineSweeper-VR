@@ -26,15 +26,26 @@ public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] float initialDistanceFromPlayer = 2.0f;
 
 	List<List<List<MineSweeperCell>>> cells = new List<List<List<MineSweeperCell>>>();
+	MineSweeperContext context;
 	int minesFound = 0;
 
 	// Set to true when the player destroys or marks a mine for the first time
 	bool acted = false;
+	bool active = true;
 
 	// Start is called before the first frame update
 	void Start() {
+		context = GameObject.FindGameObjectWithTag("gameContext").GetComponent<MineSweeperContext>();
 		positionGrid();
 		instanciateCells();
+	}
+
+	public bool isActive() {
+		return active;
+	}
+
+	void deactivate() {
+		active = false;
 	}
 
 	private void positionGrid() {
@@ -100,13 +111,12 @@ public class MineSweeperGrid : MonoBehaviour {
 		if (!acted) {
 			acted = true;
 			setMines(x, y, z);
-			GameObject context = GameObject.FindGameObjectWithTag("gameContext");
-			context.GetComponent<MineSweeperContext>().startTimer();
+			context.startTimer();
 		}
 
 		if (cell.hasMine()) {
-			// Lost
-			Destroy(gameObject);
+			deactivate();
+			context.setLost();
 		}
 		else {
 			replaceCellWithRevealed(x, y, z);
@@ -115,6 +125,13 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	public void addFoundMine() {
 		minesFound++;
+		if (minesFound == minesCount) {
+			deactivate();
+			// Reveal the whole grid
+			// if not lost, set won
+			Debug.Log("Won");
+			context.setWon();
+		}
 	}
 
 	public void removeFoundMine() {

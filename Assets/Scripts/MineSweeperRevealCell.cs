@@ -13,7 +13,9 @@ public class MineSweeperRevealCell : MonoBehaviour
 	}
 
 	private void Update() {
-		playerControl.execute(reveal);
+		if (grid.isActive()) {
+			playerControl.execute(reveal);
+		}
 	}
 
 	public void reveal(MineSweeperCell cell) {
