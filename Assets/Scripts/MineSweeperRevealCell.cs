@@ -5,16 +5,16 @@ using UnityEngine;
 public class MineSweeperRevealCell : MonoBehaviour
 {
 	MineSweeperGrid grid;
-	MineSweeperControl playerControl;
+	MineSweeperCellInteractor cellInteractor;
 
 	private void Start() {
-		playerControl = GetComponent<MineSweeperControl>();
+		cellInteractor = GetComponent<MineSweeperCellInteractor>();
 		grid = GameObject.FindGameObjectWithTag("grid").GetComponent<MineSweeperGrid>();
 	}
 
 	private void Update() {
 		if (grid.isActive()) {
-			playerControl.execute(reveal);
+			cellInteractor.execute(reveal);
 		}
 	}
 

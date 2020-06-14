@@ -2,61 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum VibrationType { Gentle, Strong };
+
 public class MineSweeperControl : MonoBehaviour
 {
-	[SerializeField] float hoverVibrationFrequency = 0.1f;
-	[SerializeField] float hoverVibrationAmplitude = 0.1f;
-	[SerializeField] float executeVibrationFrequency = 0.5f;
-	[SerializeField] float executeVibrationAmplitude = 0.5f;
-	[SerializeField] bool cleanAfterExecution = false;
+	[SerializeField] float gentleVibrationFrequency = 0.1f;
+	[SerializeField] float gentleVibrationAmplitude = 0.1f;
+	[SerializeField] float strongVibrationFrequency = 0.5f;
+	[SerializeField] float strongVibrationAmplitude = 0.5f;
 	[SerializeField] OVRInput.Controller controller;
 	[SerializeField] OVRInput.RawButton button;
 
-	List<MineSweeperCell> hoveredCells = new List<MineSweeperCell>();
-	bool executed = false;
+	bool controllerPressed = false;
 
-	void OnTriggerEnter(Collider other) {
-		MineSweeperCell cell = other.GetComponent<MineSweeperCell>();
-		cell.setHovered(true);
-		hoveredCells.Add(cell);
-		OVRInput.SetControllerVibration(hoverVibrationFrequency, hoverVibrationAmplitude, controller);
-		StartCoroutine("stopVibrating", controller);
-	}
-
-	void OnTriggerExit(Collider other) {
-		MineSweeperCell cell = other.GetComponent<MineSweeperCell>();
-		cell.setHovered(false);
-		hoveredCells.Remove(cell);
-		OVRInput.SetControllerVibration(executeVibrationFrequency, executeVibrationAmplitude, controller);
-		StartCoroutine("stopVibrating", controller);
-	}
-
-	public void execute(System.Action<MineSweeperCell> callback) {
-		bool controllerPressed = OVRInput.Get(button, controller);
-		if (!executed && controllerPressed) {
-			if (hoveredCells.Count == 0) {
-				return;
-			}
-			foreach (var cell in hoveredCells) {
-				callback(cell);
-			}
-			if (hoveredCells.Count > 0) {
-				OVRInput.SetControllerVibration(executeVibrationFrequency, executeVibrationAmplitude, controller);
-				StartCoroutine("stopVibrating", controller);
-			}
-			if (cleanAfterExecution) {
-				hoveredCells.Clear();
-			}
-			executed = true;
+	public void vibrate(VibrationType vibrationType) {
+		float vibrationFrequency, vibrationAmplitude;
+		if (vibrationType == VibrationType.Gentle) {
+			vibrationFrequency = gentleVibrationFrequency;
+			vibrationAmplitude = gentleVibrationAmplitude;
 		}
-		else if (!controllerPressed) {
-			executed = false;
+		else {
+			vibrationFrequency = strongVibrationFrequency;
+			vibrationAmplitude = strongVibrationAmplitude;
 		}
+		OVRInput.SetControllerVibration(vibrationFrequency, vibrationAmplitude, controller);
+		StartCoroutine("stopVibrating", controller);
 	}
 
 	IEnumerator stopVibrating(OVRInput.Controller controller) {
 		yield return new WaitForSeconds(0.1f);
 		OVRInput.SetControllerVibration(0.0f, 0.0f, controller);
+	}
 
+	public bool isButtonPressed() {
+		return controllerPressed;
+	}
+
+	private void Update() {
+		controllerPressed = OVRInput.Get(button, controller);
 	}
 }

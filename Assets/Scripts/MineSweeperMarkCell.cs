@@ -6,18 +6,18 @@ using UnityEngine;
 public class MineSweeperMarkCell : MonoBehaviour
 {
 	MineSweeperGrid grid;
-	MineSweeperControl playerControl;
+	MineSweeperCellInteractor cellInteractor;
 	[SerializeField] TextMesh mineCounter;
 
 	private void Start() {
-		playerControl = GetComponent<MineSweeperControl>();
+		cellInteractor = GetComponent<MineSweeperCellInteractor>();
 		grid = GameObject.FindGameObjectWithTag("grid").GetComponent<MineSweeperGrid>();
 		mineCounter.text = grid.getCountUnfoundMines().ToString();
 	}
 
 	private void Update() {
 		if (grid.isActive()) {
-			playerControl.execute(mark);
+			cellInteractor.execute(mark);
 		}
 	}
 

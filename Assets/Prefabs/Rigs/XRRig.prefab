@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 867371445432979949}
   - component: {fileID: 3165096933732203653}
   - component: {fileID: 3721569221491685164}
+  - component: {fileID: 1428365668483363716}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -320,11 +321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36416ccb6a9c28b49a9a2eeffb5a27c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverVibrationFrequency: 0.1
-  hoverVibrationAmplitude: 0.1
-  executeVibrationFrequency: 0.5
-  executeVibrationAmplitude: 0.5
-  cleanAfterExecution: 0
+  gentleVibrationFrequency: 0.1
+  gentleVibrationAmplitude: 0.1
+  strongVibrationFrequency: 0.5
+  strongVibrationAmplitude: 0.5
   controller: 2
   button: 67108864
 --- !u!114 &3165096933732203653
@@ -353,6 +353,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: -80
+--- !u!114 &1428365668483363716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6169087800714178762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ea702cc2e94ee46995633e2da1abac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cleanAfterExecution: 0
 --- !u!1 &6617136618156211138
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +382,7 @@ GameObject:
   - component: {fileID: 4765784587922406940}
   - component: {fileID: 2441138431447686454}
   - component: {fileID: 7869858230629777379}
+  - component: {fileID: 1696554216046829403}
   m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
@@ -478,11 +492,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36416ccb6a9c28b49a9a2eeffb5a27c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverVibrationFrequency: 0.1
-  hoverVibrationAmplitude: 0.1
-  executeVibrationFrequency: 0.5
-  executeVibrationAmplitude: 0.5
-  cleanAfterExecution: 1
+  gentleVibrationFrequency: 0.1
+  gentleVibrationAmplitude: 0.1
+  strongVibrationFrequency: 0.5
+  strongVibrationAmplitude: 0.5
   controller: 1
   button: 268435456
 --- !u!114 &2441138431447686454
@@ -511,6 +524,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   translationSpeed: 1
   minDistanceFromPlayer: 0.5
+--- !u!114 &1696554216046829403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617136618156211138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ea702cc2e94ee46995633e2da1abac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cleanAfterExecution: 1
 --- !u!1 &6742452842221186233
 GameObject:
   m_ObjectHideFlags: 0
