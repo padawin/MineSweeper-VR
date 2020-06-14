@@ -33,8 +33,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	bool acted = false;
 	bool active = true;
 
-	// Start is called before the first frame update
-	void Start() {
+	public void init() {
 		context = GameObject.FindGameObjectWithTag("gameContext").GetComponent<MineSweeperContext>();
 		positionGrid();
 		instanciateCells();
