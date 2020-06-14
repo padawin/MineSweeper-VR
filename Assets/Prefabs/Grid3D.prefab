@@ -52,4 +52,4 @@ MonoBehaviour:
   depth: 1
   cellSpacing: 0.01
   minesCount: 20
-  initialDistanceFromPlayer: 2
+  initialDistanceFromPlayer: 0.7
