@@ -128,6 +128,32 @@ public class MineSweeperGrid : MonoBehaviour {
 		}
 	}
 
+	private void replaceCellWithRevealed(int x, int y, int z) {
+		MineSweeperCell cell = cells[getCellIndex(x, y, z)];
+		cell.setState(CellState.revealed);
+		int nbNeighbourMines = countNeighbourMines(x, y, z);
+		if (nbNeighbourMines > 0) {
+			showNeighboursCount(cell, nbNeighbourMines);
+		}
+		else {
+			foreach (GridCoordinate coords in neighbourCoordinates(x, y, z)) {
+				if (coords.x == x && coords.y == y && coords.z == z ||
+					cells[getCellIndex(coords.x, coords.y, coords.z)].getState() != CellState.initial
+				) {
+					continue;
+				}
+				replaceCellWithRevealed(coords.x, coords.y, coords.z);
+			}
+		}
+		Destroy(cell.gameObject);
+	}
+
+	private void showNeighboursCount(MineSweeperCell cell, int nbNeighbourMines) {
+		GameObject revealedCell = Instantiate(revealedCellPrefab, cell.gameObject.transform.position, Quaternion.identity);
+		revealedCell.GetComponent<MineSweeperRevealedCell>().setValue(nbNeighbourMines);
+		revealedCell.transform.parent = gameObject.transform;
+	}
+
 	public void addFoundMine() {
 		minesFound++;
 		if (minesFound == minesCount) {
@@ -174,28 +200,6 @@ public class MineSweeperGrid : MonoBehaviour {
 			}
 		}
 		return neighbours;
-	}
-
-	private void replaceCellWithRevealed(int x, int y, int z) {
-		MineSweeperCell cell = cells[getCellIndex(x, y, z)];
-		cell.setState(CellState.revealed);
-		int nbNeighbourMines = countNeighbourMines(x, y, z);
-		if (nbNeighbourMines > 0) {
-			GameObject revealedCell = Instantiate(revealedCellPrefab, cell.gameObject.transform.position, Quaternion.identity);
-			revealedCell.GetComponent<MineSweeperRevealedCell>().setValue(nbNeighbourMines);
-			revealedCell.transform.parent = gameObject.transform;
-		}
-		else {
-			foreach (GridCoordinate coords in neighbourCoordinates(x, y, z)) {
-				if (coords.x == x && coords.y == y && coords.z == z ||
-					cells[getCellIndex(coords.x, coords.y, coords.z)].getState() != CellState.initial
-				) {
-					continue;
-				}
-				replaceCellWithRevealed(coords.x, coords.y, coords.z);
-			}
-		}
-		Destroy(cell.gameObject);
 	}
 
 	private void setMines(int xToExclude, int yToExclude, int zToExclude) {
