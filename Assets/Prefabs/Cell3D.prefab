@@ -108,5 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: ae27de8aa9309c24587f20034f709a0e, type: 2}
   flaggedMaterial: {fileID: 2100000, guid: 34adb4f50345bb84a9d31f8750fee6e9, type: 2}
-  potentiallyFlaggedMaterial: {fileID: 2100000, guid: 495316d718ff1274580aac36a45a19b1,
+  potentiallyFlaggedMaterial: {fileID: 2100000, guid: d87b113106ef71242924d783835e8b88,
+    type: 2}
+  hasMineMaterial: {fileID: 2100000, guid: be5c64392805bcc4f84a4b9167f42b48, type: 2}
+  hasClickedMineMaterial: {fileID: 2100000, guid: 495316d718ff1274580aac36a45a19b1,
     type: 2}

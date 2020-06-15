@@ -28,6 +28,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	MineSweeperContext context;
 
 	List<MineSweeperCell> cells = new List<MineSweeperCell>();
+	List<int> mines = new List<int>();
 	int minesFound = 0;
 
 	// Set to true when the player destroys or marks a mine for the first time
@@ -143,11 +144,21 @@ public class MineSweeperGrid : MonoBehaviour {
 
 		if (cell.hasMine()) {
 			deactivate();
+			showMines(cell);
 			context.setLost();
 		}
 		else {
 			replaceCellWithRevealed(x, y, z);
 			setWin();
+		}
+	}
+
+	void showMines(MineSweeperCell clickedMine) {
+		foreach (var mineIndex in mines) {
+			MineSweeperCell cell = cells[mineIndex];
+			if (cell.getState() != CellState.flagged) {
+				cell.showMine(cell == clickedMine);
+			}
 		}
 	}
 
@@ -251,6 +262,7 @@ public class MineSweeperGrid : MonoBehaviour {
 
 			int cellIndex = candidateIndices[randomIndex];
 			cells[cellIndex].setMine();
+			mines.Add(cellIndex);
 			candidateIndices.RemoveAt(randomIndex);
 		}
 	}
