@@ -164,7 +164,6 @@ public class MineSweeperGrid : MonoBehaviour {
 		deactivate();
 		// Reveal the whole grid
 		// if not lost, set won
-		Debug.Log("Won");
 		context.setWon();
 	}
 

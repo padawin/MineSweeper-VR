@@ -38,12 +38,14 @@ public class MineSweeperContext : MonoBehaviour
 
 	public void setWon() {
 		running = false;
+		Debug.Log("Won");
 		// save time
 		// display menu with win option
 	}
 
 	public void setLost() {
 		running = false;
+		Debug.Log("Lost");
 		// display menu with lost option
 	}
 }
