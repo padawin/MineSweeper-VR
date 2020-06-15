@@ -147,7 +147,25 @@ public class MineSweeperGrid : MonoBehaviour {
 		}
 		else {
 			replaceCellWithRevealed(x, y, z);
+			setWin();
 		}
+	}
+
+	void setWin() {
+		if (minesFound != minesCount) {
+			return;
+		}
+		foreach (var cell in cells) {
+			if (cell.getState() == CellState.initial || cell.getState() == CellState.potentialFlag) {
+				return;
+			}
+		}
+
+		deactivate();
+		// Reveal the whole grid
+		// if not lost, set won
+		Debug.Log("Won");
+		context.setWon();
 	}
 
 	private void replaceCellWithRevealed(int x, int y, int z) {
@@ -180,13 +198,7 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	public void addFoundMine() {
 		minesFound++;
-		if (minesFound == minesCount) {
-			deactivate();
-			// Reveal the whole grid
-			// if not lost, set won
-			Debug.Log("Won");
-			context.setWon();
-		}
+		setWin();
 	}
 
 	public void removeFoundMine() {
