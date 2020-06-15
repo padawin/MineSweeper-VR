@@ -25,8 +25,9 @@ public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] int minesCount = 0;
 	[SerializeField] float initialDistanceFromPlayer = 2.0f;
 
-	List<List<List<MineSweeperCell>>> cells = new List<List<List<MineSweeperCell>>>();
 	MineSweeperContext context;
+
+	List<MineSweeperCell> cells = new List<MineSweeperCell>();
 	int minesFound = 0;
 
 	// Set to true when the player destroys or marks a mine for the first time
@@ -76,6 +77,15 @@ public class MineSweeperGrid : MonoBehaviour {
 		return z * (width * height) + y * width + x;
 	}
 
+	private GridCoordinate getCoords(int index) {
+		int z = index / (width * height);
+		int yx = index % (width * height);
+		int y = yx / width;
+		int x = yx % width;
+		GridCoordinate coords = new GridCoordinate(x, y, z);
+		return coords;
+	}
+
 	void instanciateCells() {
 		float cellWidth = cellPrefab.transform.localScale.x;
 		float cellHeight = cellPrefab.transform.localScale.y;
@@ -83,23 +93,19 @@ public class MineSweeperGrid : MonoBehaviour {
 		float startX = transform.position.x - (cellWidth * width / 2);
 		float startY = transform.position.y - (cellHeight * height / 2);
 		float startZ = transform.position.z - (cellDepth * depth / 2);
-		for (int i = 0; i < width; i++) {
-			cells.Add(new List<List<MineSweeperCell>>());
-			for (int j = 0; j < height; j++) {
-				cells[i].Add(new List<MineSweeperCell>());
-				for (int k = 0; k < depth; k++) {
-					GameObject cell = Instantiate(cellPrefab, transform.position, Quaternion.identity);
-					cell.transform.position = new Vector3(
-						startX + i * (cellWidth + cellSpacing),
-						startY + j * (cellHeight + cellSpacing),
-						startZ + k * (cellDepth + cellSpacing)
-					);
-					cell.transform.parent = gameObject.transform;
-					MineSweeperCell cellComponent = cell.GetComponent<MineSweeperCell>();
-					cellComponent.setCoordinates(i, j, k);
-					cells[i][j].Add(cellComponent);
-				}
-			}
+		int gridSize = getSize();
+		for (int i = 0; i < gridSize; i++) {
+			GridCoordinate coords = getCoords(i);
+			GameObject cell = Instantiate(cellPrefab, transform.position, Quaternion.identity);
+			cell.transform.position = new Vector3(
+				startX + coords.x * (cellWidth + cellSpacing),
+				startY + coords.y * (cellHeight + cellSpacing),
+				startZ + coords.z * (cellDepth + cellSpacing)
+			);
+			cell.transform.parent = gameObject.transform;
+			MineSweeperCell cellComponent = cell.GetComponent<MineSweeperCell>();
+			cellComponent.setCoordinates(coords.x, coords.y, coords.z);
+			cells.Add(cellComponent);
 		}
 	}
 
@@ -145,11 +151,13 @@ public class MineSweeperGrid : MonoBehaviour {
 		return minesCount > minesFound;
 	}
 
-	private IEnumerable<GridCoordinate> neighbourIndices(int x, int y, int z) {
+	private IEnumerable<GridCoordinate> neighbourCoordinates(int x, int y, int z) {
 		for (int k = z - 1; k <= z + 1; k++) {
 			for (int j = y - 1; j <= y + 1; j++) {
 				for (int i = x - 1; i <= x + 1; i++) {
-					yield return new GridCoordinate(i, j, k);
+					if (i >= 0 && j >= 0 && k >= 0 && i < width && j < height && k < depth) {
+						yield return new GridCoordinate(i, j, k);
+					}
 				}
 			}
 		}
@@ -157,17 +165,11 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	private int countNeighbourMines(int x, int y, int z) {
 		int neighbours = 0;
-		foreach (GridCoordinate coord in neighbourIndices(x, y, z)) {
-			int i = coord.x;
-			int j = coord.y;
-			int k = coord.z;
-			if (i < 0 || j < 0 || k < 0 ||
-				i >= width || j >= height || k >= depth ||
-				i == x && j == y && k == z
-			) {
+		foreach (GridCoordinate coords in neighbourCoordinates(x, y, z)) {
+			if (coords.x == x && coords.y == y && coords.z == z) {
 				continue;
 			}
-			if (cells[i][j][k].hasMine()) {
+			else if (cells[getCellIndex(coords.x, coords.y, coords.z)].hasMine()) {
 				neighbours++;
 			}
 		}
@@ -175,7 +177,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	}
 
 	private void replaceCellWithRevealed(int x, int y, int z) {
-		MineSweeperCell cell = cells[x][y][z];
+		MineSweeperCell cell = cells[getCellIndex(x, y, z)];
 		cell.setState(CellState.revealed);
 		int nbNeighbourMines = countNeighbourMines(x, y, z);
 		if (nbNeighbourMines > 0) {
@@ -184,19 +186,13 @@ public class MineSweeperGrid : MonoBehaviour {
 			revealedCell.transform.parent = gameObject.transform;
 		}
 		else {
-			List<MineSweeperCell> neighboursToReveal = new List<MineSweeperCell>();
-			foreach (GridCoordinate coord in neighbourIndices(x, y, z)) {
-				int i = coord.x;
-				int j = coord.y;
-				int k = coord.z;
-				if (i < 0 || j < 0 || k < 0 ||
-					i >= width || j >= height || k >= depth ||
-					(i == x && j == y && k == z) ||
-					cells[i][j][k].getState() != CellState.initial
+			foreach (GridCoordinate coords in neighbourCoordinates(x, y, z)) {
+				if (coords.x == x && coords.y == y && coords.z == z ||
+					cells[getCellIndex(coords.x, coords.y, coords.z)].getState() != CellState.initial
 				) {
 					continue;
 				}
-				replaceCellWithRevealed(i, j, k);
+				replaceCellWithRevealed(coords.x, coords.y, coords.z);
 			}
 		}
 		Destroy(cell.gameObject);
@@ -207,29 +203,15 @@ public class MineSweeperGrid : MonoBehaviour {
 		var candidateIndices = Enumerable.Range(0, size).ToList();
 		System.Random rnd = new System.Random();
 
-		foreach (GridCoordinate coord in neighbourIndices(xToExclude, yToExclude, zToExclude)) {
-			int i = coord.x;
-			int j = coord.y;
-			int k = coord.z;
-			if (i < 0 || j < 0 || k < 0 ||
-				i >= width || j >= height || k >= depth
-			) {
-				continue;
-			}
-			int cellToRemove = getCellIndex(i, j, k);
-			candidateIndices.Remove(cellToRemove);
+		foreach (GridCoordinate coords in neighbourCoordinates(xToExclude, yToExclude, zToExclude)) {
+			candidateIndices.Remove(getCellIndex(coords.x, coords.y, coords.z));
 		}
 
 		for (int m = 0; m < minesCount && candidateIndices.Count > 0; m++) {
 			int randomIndex = rnd.Next(candidateIndices.Count);
 
 			int cellIndex = candidateIndices[randomIndex];
-			// index to coordinates
-			int z = cellIndex / (width * height);
-			int yx = cellIndex % (width * height);
-			int y = yx / width;
-			int x = yx % width;
-			cells[x][y][z].setMine();
+			cells[cellIndex].setMine();
 			candidateIndices.RemoveAt(randomIndex);
 		}
 	}
