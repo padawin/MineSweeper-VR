@@ -14,7 +14,7 @@ public class MineSweeperRevealCell : MonoBehaviour
 
 	private void Update() {
 		if (grid.isActive()) {
-			cellInteractor.execute(reveal);
+			cellInteractor.execute(reveal, grid.revealNeighbours);
 		}
 	}
 

@@ -109,6 +109,28 @@ public class MineSweeperGrid : MonoBehaviour {
 		}
 	}
 
+	public void revealNeighbours(MineSweeperRevealedCell cell) {
+		int x = cell.getOriginalCell().getX();
+		int y = cell.getOriginalCell().getY();
+		int z = cell.getOriginalCell().getZ();
+		int countMarkedNeighbours = 0;
+		List<MineSweeperCell> unmarkedNeighbours = new List<MineSweeperCell>();
+		foreach (GridCoordinate coords in neighbourCoordinates(x, y, z)) {
+			MineSweeperCell neighbour = cells[getCellIndex(coords.x, coords.y, coords.z)];
+			if (neighbour.getState() == CellState.initial) {
+				unmarkedNeighbours.Add(neighbour);
+			}
+			else if (neighbour.getState() == CellState.flagged) {
+				countMarkedNeighbours++;
+			}
+		}
+		if (countMarkedNeighbours == cell.getCountNeighbours()) {
+			foreach (var unmarkedCell in unmarkedNeighbours) {
+				revealCell(unmarkedCell);
+			}
+		}
+	}
+
 	public void revealCell(MineSweeperCell cell) {
 		int x = cell.getX();
 		int y = cell.getY();
@@ -145,13 +167,15 @@ public class MineSweeperGrid : MonoBehaviour {
 				replaceCellWithRevealed(coords.x, coords.y, coords.z);
 			}
 		}
-		Destroy(cell.gameObject);
+		cell.gameObject.SetActive(false);
 	}
 
 	private void showNeighboursCount(MineSweeperCell cell, int nbNeighbourMines) {
-		GameObject revealedCell = Instantiate(revealedCellPrefab, cell.gameObject.transform.position, Quaternion.identity);
-		revealedCell.GetComponent<MineSweeperRevealedCell>().setValue(nbNeighbourMines);
-		revealedCell.transform.parent = gameObject.transform;
+		GameObject obj = Instantiate(revealedCellPrefab, cell.gameObject.transform.position, Quaternion.identity);
+		MineSweeperRevealedCell revealedCell = obj.GetComponent<MineSweeperRevealedCell>();
+		revealedCell.setOriginalCell(cell);
+		revealedCell.setValue(nbNeighbourMines);
+		obj.transform.parent = gameObject.transform;
 	}
 
 	public void addFoundMine() {

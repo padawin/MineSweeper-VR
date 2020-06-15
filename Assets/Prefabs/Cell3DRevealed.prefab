@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3601759620803416834}
   - component: {fileID: 1741796089422060047}
-  m_Layer: 0
+  - component: {fileID: 934059325061266494}
+  m_Layer: 11
   m_Name: Cell3DRevealed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 702171854245682764}
+  textRenderer: {fileID: 5717698423148295392}
   colors:
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 0, g: 0.5019608, b: 0, a: 1}
@@ -56,7 +58,20 @@ MonoBehaviour:
   - {r: 1, g: 0.37254903, b: 1, a: 1}
   - {r: 1, g: 0.8431373, b: 0.37254903, a: 1}
   - {r: 0.6862745, g: 1, b: 0.5294118, a: 1}
-  textRenderer: {fileID: 5717698423148295392}
+--- !u!136 &934059325061266494
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619165939616819333}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7486574570651711248
 GameObject:
   m_ObjectHideFlags: 0

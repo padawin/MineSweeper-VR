@@ -17,7 +17,7 @@ public class MineSweeperMarkCell : MonoBehaviour
 
 	private void Update() {
 		if (grid.isActive()) {
-			cellInteractor.execute(mark);
+			cellInteractor.execute(mark, grid.revealNeighbours);
 		}
 	}
 
