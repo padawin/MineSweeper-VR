@@ -14,10 +14,15 @@ public class MineSweeperRotateGrid : MonoBehaviour
 
     void Update() {
 		Vector2 stickState = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);
-		grid.transform.Rotate(new Vector3(
-			stickState.y * rotationSpeed * Time.deltaTime,
-			-stickState.x * rotationSpeed * Time.deltaTime,
-			0.0f
-		));
+		grid.transform.RotateAround(
+			grid.transform.position,
+			Vector3.left,
+			stickState.y * rotationSpeed * Time.deltaTime
+		);
+		grid.transform.RotateAround(
+			grid.transform.position,
+			Vector3.up,
+			stickState.x * rotationSpeed * Time.deltaTime
+		);
     }
 }
