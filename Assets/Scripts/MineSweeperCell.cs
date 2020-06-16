@@ -14,6 +14,7 @@ public class MineSweeperCell : MonoBehaviour {
 	private MeshRenderer meshRenderer;
 
 	[SerializeField] Material defaultMaterial;
+	[SerializeField] Material hoveredMaterial;
 	[SerializeField] Material flaggedMaterial;
 	[SerializeField] Material potentiallyFlaggedMaterial;
 	[SerializeField] Material hasMineMaterial;
@@ -74,12 +75,10 @@ public class MineSweeperCell : MonoBehaviour {
 
 	public void setHovered(bool hovered) {
 		if (hovered) {
-			meshRenderer.material.EnableKeyword("_EMISSION");
-			meshRenderer.material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.AnyEmissive;
+			meshRenderer.material = hoveredMaterial;
 		}
 		else {
-			meshRenderer.material.DisableKeyword("_EMISSION");
-			meshRenderer.material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.EmissiveIsBlack;
+			meshRenderer.material = defaultMaterial;
 		}
 	}
 

@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae27de8aa9309c24587f20034f709a0e, type: 2}
+  - {fileID: 2100000, guid: 28d8a2bd3acfe3e4fbc3b50ecbe02e3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,7 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a1d1bb61e298f4aa62838a49438b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: ae27de8aa9309c24587f20034f709a0e, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: 28d8a2bd3acfe3e4fbc3b50ecbe02e3c, type: 2}
+  hoveredMaterial: {fileID: 2100000, guid: ae27de8aa9309c24587f20034f709a0e, type: 2}
   flaggedMaterial: {fileID: 2100000, guid: 34adb4f50345bb84a9d31f8750fee6e9, type: 2}
   potentiallyFlaggedMaterial: {fileID: 2100000, guid: d87b113106ef71242924d783835e8b88,
     type: 2}
