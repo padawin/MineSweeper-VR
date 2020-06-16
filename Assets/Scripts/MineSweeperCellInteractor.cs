@@ -61,8 +61,9 @@ public class MineSweeperCellInteractor : MonoBehaviour
 	public void execute(System.Action<MineSweeperCell> cellCallback, System.Action<MineSweeperRevealedCell> neighbourIndicatorCallback) {
 		bool buttonPressed = control.isButtonPressed();
 		if (!executed && buttonPressed) {
+			bool hasHoveredCells = hoveredCells.Count > 0;
 			executeOnCells(cellCallback);
-			if (neighbourIndicatorCallback != null) {
+			if (!hasHoveredCells && neighbourIndicatorCallback != null) {
 				executeOnNeighbourIndicators(neighbourIndicatorCallback);
 			}
 			executed = true;
