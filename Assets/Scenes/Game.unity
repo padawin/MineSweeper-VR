@@ -425,6 +425,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bf7ada1a028a484f9f565c90505ad5d, type: 3}
+--- !u!20 &1843888814 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8942158407167571851, guid: 5ab232764f5c1df4cbc5afc5a6ab45ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 456051744}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2308811695841372487 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7703372089186759584, guid: 1999a4e499c55a945866bda40c135904,
@@ -463,7 +469,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1843888814}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
