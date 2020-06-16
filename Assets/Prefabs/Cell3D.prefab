@@ -114,3 +114,8 @@ MonoBehaviour:
   hasMineMaterial: {fileID: 2100000, guid: be5c64392805bcc4f84a4b9167f42b48, type: 2}
   hasClickedMineMaterial: {fileID: 2100000, guid: 495316d718ff1274580aac36a45a19b1,
     type: 2}
+  defaultColor: {r: 0.8, g: 0.8, b: 0.8, a: 0}
+  flaggedColor: {r: 0.15512633, g: 0.7830188, b: 0.20630711, a: 1}
+  potentiallyFlaggedColor: {r: 1, g: 0.50992143, b: 0.08490568, a: 1}
+  hasMineColor: {r: 1, g: 0, b: 0, a: 1}
+  hasClickedMineColor: {r: 0.6037736, g: 0, b: 0, a: 1}

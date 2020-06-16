@@ -15,10 +15,11 @@ public class MineSweeperCell : MonoBehaviour {
 
 	[SerializeField] Material defaultMaterial;
 	[SerializeField] Material hoveredMaterial;
-	[SerializeField] Material flaggedMaterial;
-	[SerializeField] Material potentiallyFlaggedMaterial;
-	[SerializeField] Material hasMineMaterial;
-	[SerializeField] Material hasClickedMineMaterial;
+	[SerializeField] Color defaultColor;
+	[SerializeField] Color flaggedColor;
+	[SerializeField] Color potentiallyFlaggedColor;
+	[SerializeField] Color hasMineColor;
+	[SerializeField] Color hasClickedMineColor;
 
 	private void Start() {
 		meshRenderer = GetComponent<MeshRenderer>();
@@ -53,15 +54,15 @@ public class MineSweeperCell : MonoBehaviour {
 	public void mark() {
 		if (state == CellState.initial) {
 			state = CellState.flagged;
-			meshRenderer.material = flaggedMaterial;
+			meshRenderer.material.color = flaggedColor;
 		}
 		else if (state == CellState.flagged) {
 			state = CellState.potentialFlag;
-			meshRenderer.material = potentiallyFlaggedMaterial;
+			meshRenderer.material.color = potentiallyFlaggedColor;
 		}
 		else if (state == CellState.potentialFlag) {
 			state = CellState.initial;
-			meshRenderer.material = defaultMaterial;
+			meshRenderer.material.color = defaultColor;
 		}
 	}
 
@@ -74,20 +75,22 @@ public class MineSweeperCell : MonoBehaviour {
 	}
 
 	public void setHovered(bool hovered) {
+		Color currentColor = meshRenderer.material.color;
 		if (hovered) {
 			meshRenderer.material = hoveredMaterial;
 		}
 		else {
 			meshRenderer.material = defaultMaterial;
 		}
+		meshRenderer.material.color = currentColor;
 	}
 
 	public void showMine(bool clicked) {
 		if (clicked) {
-			meshRenderer.material = hasClickedMineMaterial;
+			meshRenderer.material.color = hasClickedMineColor;
 		}
 		else {
-			meshRenderer.material = hasMineMaterial;
+			meshRenderer.material.color = hasMineColor;
 		}
 	}
 }
