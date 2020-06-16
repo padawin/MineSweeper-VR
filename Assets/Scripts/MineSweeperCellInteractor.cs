@@ -47,11 +47,13 @@ public class MineSweeperCellInteractor : MonoBehaviour
 	}
 
 	void addNeighbourIndicatorToHovered(MineSweeperRevealedCell obj) {
+		obj.setHovered(true);
 		hoveredNeighbourIndicators.Add(obj);
 		control.vibrate(VibrationType.Gentle);
 	}
 
 	void removeNeighbourIndicatorFromHovered(MineSweeperRevealedCell obj) {
+		obj.setHovered(false);
 		hoveredNeighbourIndicators.Remove(obj);
 		control.vibrate(VibrationType.Gentle);
 	}

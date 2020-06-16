@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MineSweeperRevealedCell : MonoBehaviour
 {
 	Camera m_camera;
-	[SerializeField] TextMesh text;
+	[SerializeField] TextMeshPro text;
 	[SerializeField] MeshRenderer textRenderer;
+	[SerializeField] Material defaultMaterial;
+	[SerializeField] Material hoveredMaterial;
 	[SerializeField] Color[] colors;
 	MineSweeperCell originalCell;
 	int neighboursCount = 0;
@@ -19,7 +22,7 @@ public class MineSweeperRevealedCell : MonoBehaviour
 		neighboursCount = val;
 		text.text = val.ToString();
 		if (val < colors.Length) {
-			textRenderer.materials[0].SetColor("_Color", colors[val]);
+			text.color = colors[val];
 		}
 	}
 
@@ -38,4 +41,13 @@ public class MineSweeperRevealedCell : MonoBehaviour
 	void Update() {
 		transform.LookAt(m_camera.transform);
     }
+
+	public void setHovered(bool hovered) {
+		if (hovered) {
+			textRenderer.material = hoveredMaterial;
+		}
+		else {
+			textRenderer.material = defaultMaterial;
+		}
+	}
 }
