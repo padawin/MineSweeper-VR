@@ -61,13 +61,11 @@ public class MineSweeperGrid : MonoBehaviour {
 	private void positionGrid() {
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
 		float cellDepth = cellPrefab.transform.localScale.z;
-		float initialZ = player.transform.position.z
-						 + initialDistanceFromPlayer
-						 + (depth / 2) * (cellDepth + cellSpacing);
+		float initialZ = initialDistanceFromPlayer + (depth / 2) * (cellDepth + cellSpacing);
 		transform.position = new Vector3(
 			player.transform.position.x,
 			player.transform.position.y,
-			initialZ
+			player.transform.position.z + initialZ
 		);
 	}
 
