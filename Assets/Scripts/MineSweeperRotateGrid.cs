@@ -6,22 +6,16 @@ public class MineSweeperRotateGrid : MonoBehaviour
 {
 	[SerializeField] float rotationSpeed = 80.0f;
 
-	GameObject grid;
+	MineSweeperGrid grid;
 
 	private void Start() {
-		grid = GameObject.FindGameObjectWithTag("grid");
+		grid = GameObject.FindGameObjectWithTag("grid").GetComponent<MineSweeperGrid>();
 	}
 
     void Update() {
 		Vector2 stickState = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, OVRInput.Controller.RTouch);
-		grid.transform.RotateAround(
-			grid.transform.position,
-			Vector3.left,
-			stickState.y * rotationSpeed * Time.deltaTime
-		);
-		grid.transform.RotateAround(
-			grid.transform.position,
-			Vector3.up,
+		grid.rotate(
+			stickState.y * rotationSpeed * Time.deltaTime,
 			stickState.x * rotationSpeed * Time.deltaTime
 		);
     }

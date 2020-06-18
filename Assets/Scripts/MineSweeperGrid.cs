@@ -49,6 +49,15 @@ public class MineSweeperGrid : MonoBehaviour {
 		active = false;
 	}
 
+	public void translate(Vector3 translateVector) {
+		transform.position = transform.position + translateVector;
+	}
+
+	public void rotate(float left, float up) {
+		transform.RotateAround(transform.position, Vector3.left, left);
+		transform.RotateAround(transform.position, Vector3.up, up);
+	}
+
 	private void positionGrid() {
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
 		float cellDepth = cellPrefab.transform.localScale.z;

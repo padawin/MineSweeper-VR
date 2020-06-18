@@ -7,11 +7,11 @@ public class MineSweeperTranslateGrid : MonoBehaviour
 	[SerializeField] float translationSpeed = 1.0f;
 	[SerializeField] float minDistanceFromPlayer = 0.5f;
 
-	GameObject grid;
+	MineSweeperGrid grid;
 	GameObject player;
 
 	private void Start() {
-		grid = GameObject.FindGameObjectWithTag("grid");
+		grid = GameObject.FindGameObjectWithTag("grid").GetComponent<MineSweeperGrid>();
 		player = GameObject.FindGameObjectWithTag("Player");
 	}
 
@@ -32,9 +32,10 @@ public class MineSweeperTranslateGrid : MonoBehaviour
 		}
 		towardsPlayer.Normalize();
 		towardsPlayer = towardsPlayer * -speedTowardsPlayer;
-		grid.transform.position = grid.transform.position
-			+ towardsPlayer * Time.deltaTime
+		grid.translate(
+			towardsPlayer * Time.deltaTime
 			+ up * sideTranslate.y * translationSpeed * Time.deltaTime
-			+ side * sideTranslate.x * translationSpeed * Time.deltaTime;
+			+ side * sideTranslate.x * translationSpeed * Time.deltaTime
+		);
 	}
 }
