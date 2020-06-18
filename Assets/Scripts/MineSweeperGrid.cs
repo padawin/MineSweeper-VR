@@ -98,19 +98,19 @@ public class MineSweeperGrid : MonoBehaviour {
 		float cellWidth = cellPrefab.transform.localScale.x;
 		float cellHeight = cellPrefab.transform.localScale.y;
 		float cellDepth = cellPrefab.transform.localScale.z;
-		float startX = transform.position.x - (cellWidth * width / 2);
-		float startY = transform.position.y - (cellHeight * height / 2);
-		float startZ = transform.position.z - (cellDepth * depth / 2);
+		float startX = -(cellWidth * width / 2);
+		float startY = -(cellHeight * height / 2);
+		float startZ = -(cellDepth * depth / 2);
 		int gridSize = getSize();
 		for (int i = 0; i < gridSize; i++) {
 			GridCoordinate coords = getCoords(i);
-			GameObject cell = Instantiate(cellPrefab, transform.position, Quaternion.identity);
-			cell.transform.position = new Vector3(
+			GameObject cell = Instantiate(cellPrefab, transform.position, transform.rotation);
+			cell.transform.parent = gameObject.transform;
+			cell.transform.localPosition = new Vector3(
 				startX + coords.x * (cellWidth + cellSpacing),
 				startY + coords.y * (cellHeight + cellSpacing),
 				startZ + coords.z * (cellDepth + cellSpacing)
 			);
-			cell.transform.parent = gameObject.transform;
 			MineSweeperCell cellComponent = cell.GetComponent<MineSweeperCell>();
 			cellComponent.setCoordinates(coords.x, coords.y, coords.z);
 			cells.Add(cellComponent);
