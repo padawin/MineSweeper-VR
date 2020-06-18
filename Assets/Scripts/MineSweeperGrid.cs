@@ -24,6 +24,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	[SerializeField] float cellSpacing;
 	[SerializeField] int minesCount = 0;
 	[SerializeField] float initialDistanceFromPlayer = 2.0f;
+	[SerializeField] int revealBatchSize = 10;
 
 	MineSweeperContext context;
 
@@ -187,6 +188,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	IEnumerator replaceCellWithRevealed(MineSweeperCell cell) {
 		List<MineSweeperCell> cellsToReveal = new List<MineSweeperCell>();
 		cellsToReveal.Add(cell);
+		int countBeforeRender = revealBatchSize;
 		while (cellsToReveal.Count > 0) {
 			MineSweeperCell currentCell = cellsToReveal[0];
 			cellsToReveal.RemoveAt(0);
@@ -211,6 +213,11 @@ public class MineSweeperGrid : MonoBehaviour {
 					}
 					cellsToReveal.Add(neighbourCell);
 				}
+			}
+			countBeforeRender--;
+			if (countBeforeRender == 0) {
+				countBeforeRender = revealBatchSize;
+				yield return null;
 			}
 			currentCell.gameObject.SetActive(false);
 		}
