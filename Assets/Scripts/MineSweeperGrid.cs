@@ -38,7 +38,7 @@ public class MineSweeperGrid : MonoBehaviour {
 	public void init() {
 		context = GameObject.FindGameObjectWithTag("gameContext").GetComponent<MineSweeperContext>();
 		positionGrid();
-		instanciateCells();
+		StartCoroutine("instanciateCells");
 	}
 
 	public bool isActive() {
@@ -94,7 +94,7 @@ public class MineSweeperGrid : MonoBehaviour {
 		return coords;
 	}
 
-	void instanciateCells() {
+	IEnumerator instanciateCells() {
 		float cellWidth = cellPrefab.transform.localScale.x;
 		float cellHeight = cellPrefab.transform.localScale.y;
 		float cellDepth = cellPrefab.transform.localScale.z;
@@ -116,6 +116,7 @@ public class MineSweeperGrid : MonoBehaviour {
 			cells.Add(cellComponent);
 		}
 		active = true;
+		yield return null;
 	}
 
 	public void revealNeighbours(MineSweeperRevealedCell cell) {
