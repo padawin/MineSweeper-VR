@@ -33,7 +33,7 @@ public class MineSweeperGrid : MonoBehaviour {
 
 	// Set to true when the player destroys or marks a mine for the first time
 	bool acted = false;
-	bool active = true;
+	bool active = false;
 
 	public void init() {
 		context = GameObject.FindGameObjectWithTag("gameContext").GetComponent<MineSweeperContext>();
@@ -115,6 +115,7 @@ public class MineSweeperGrid : MonoBehaviour {
 			cellComponent.setCoordinates(coords.x, coords.y, coords.z);
 			cells.Add(cellComponent);
 		}
+		active = true;
 	}
 
 	public void revealNeighbours(MineSweeperRevealedCell cell) {
