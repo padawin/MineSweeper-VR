@@ -148,8 +148,7 @@ public class MineSweeperGrid : MonoBehaviour {
 			context.setLost();
 		}
 		else {
-			replaceCellWithRevealed(x, y, z);
-			setWin();
+			StartCoroutine("replaceCellWithRevealed", cells[getCellIndex(x, y, z)]);
 		}
 	}
 
@@ -178,24 +177,38 @@ public class MineSweeperGrid : MonoBehaviour {
 		context.setWon();
 	}
 
-	private void replaceCellWithRevealed(int x, int y, int z) {
-		MineSweeperCell cell = cells[getCellIndex(x, y, z)];
-		cell.setState(CellState.revealed);
-		int nbNeighbourMines = countNeighbourMines(x, y, z);
-		if (nbNeighbourMines > 0) {
-			showNeighboursCount(cell, nbNeighbourMines);
-		}
-		else {
-			foreach (GridCoordinate coords in neighbourCoordinates(x, y, z)) {
-				if (coords.x == x && coords.y == y && coords.z == z ||
-					cells[getCellIndex(coords.x, coords.y, coords.z)].getState() != CellState.initial
-				) {
-					continue;
-				}
-				replaceCellWithRevealed(coords.x, coords.y, coords.z);
+	IEnumerator replaceCellWithRevealed(MineSweeperCell cell) {
+		List<MineSweeperCell> cellsToReveal = new List<MineSweeperCell>();
+		cellsToReveal.Add(cell);
+		while (cellsToReveal.Count > 0) {
+			MineSweeperCell currentCell = cellsToReveal[0];
+			cellsToReveal.RemoveAt(0);
+			if (currentCell.getState() != CellState.initial) {
+				continue;
 			}
+			currentCell.setState(CellState.revealed);
+			int currX = currentCell.getX();
+			int currY = currentCell.getY();
+			int currZ = currentCell.getZ();
+			int nbNeighbourMines = countNeighbourMines(currX, currY, currZ);
+			if (nbNeighbourMines > 0) {
+				showNeighboursCount(currentCell, nbNeighbourMines);
+			}
+			else {
+				foreach (GridCoordinate coords in neighbourCoordinates(currX, currY, currZ)) {
+					MineSweeperCell neighbourCell = cells[getCellIndex(coords.x, coords.y, coords.z)];
+					if (coords.x == currX && coords.y == currY && coords.z == currZ ||
+						neighbourCell.getState() != CellState.initial
+					) {
+						continue;
+					}
+					cellsToReveal.Add(neighbourCell);
+				}
+			}
+			currentCell.gameObject.SetActive(false);
 		}
-		cell.gameObject.SetActive(false);
+		setWin();
+		yield return null;
 	}
 
 	private void showNeighboursCount(MineSweeperCell cell, int nbNeighbourMines) {
