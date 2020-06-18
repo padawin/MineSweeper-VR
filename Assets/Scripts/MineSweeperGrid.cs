@@ -103,6 +103,7 @@ public class MineSweeperGrid : MonoBehaviour {
 		float startY = -(cellHeight * height / 2);
 		float startZ = -(cellDepth * depth / 2);
 		int gridSize = getSize();
+		int countBeforeRender = revealBatchSize;
 		for (int i = 0; i < gridSize; i++) {
 			GridCoordinate coords = getCoords(i);
 			GameObject cell = Instantiate(cellPrefab, transform.position, transform.rotation);
@@ -115,6 +116,11 @@ public class MineSweeperGrid : MonoBehaviour {
 			MineSweeperCell cellComponent = cell.GetComponent<MineSweeperCell>();
 			cellComponent.setCoordinates(coords.x, coords.y, coords.z);
 			cells.Add(cellComponent);
+			countBeforeRender--;
+			if (countBeforeRender == 0) {
+				countBeforeRender = revealBatchSize;
+				yield return null;
+			}
 		}
 		active = true;
 		yield return null;
