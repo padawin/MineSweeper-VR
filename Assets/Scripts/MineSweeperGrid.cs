@@ -36,7 +36,11 @@ public class MineSweeperGrid : MonoBehaviour {
 	bool acted = false;
 	bool active = false;
 
-	public void init() {
+	public void init(int width, int height, int depth, int minesCount) {
+		this.width = width;
+		this.height = height;
+		this.depth = depth;
+		this.minesCount = minesCount;
 		context = GameObject.FindGameObjectWithTag("gameContext").GetComponent<MineSweeperContext>();
 		positionGrid();
 		StartCoroutine("instanciateCells");

@@ -66,8 +66,10 @@ public class LineRendererSettings : MonoBehaviour {
 	void clickButton() {
 		if (selectedMenuItem != null && !menuItemClicked && control.isButtonPressed()) {
 			Button button = selectedMenuItem.GetComponent<Button>();
-			button.onClick.Invoke();
-			menuItemClicked = true;
+			if (button.interactable) {
+				button.onClick.Invoke();
+				menuItemClicked = true;
+			}
 		}
 		else if (menuItemClicked && selectedMenuItem != null && !control.isButtonPressed()) {
 			menuItemClicked = false;
