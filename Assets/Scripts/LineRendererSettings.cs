@@ -46,6 +46,7 @@ public class LineRendererSettings : MonoBehaviour {
 		RaycastHit hit;
 
 		if (Physics.Raycast(ray, out hit, layerMask)) {
+			points[1] = transform.forward + new Vector3(0, 0, hit.distance);
 			if (!hits) {
 				hits = true;
 				lineRenderer.startColor = Color.green;
@@ -54,13 +55,17 @@ public class LineRendererSettings : MonoBehaviour {
 				control.vibrate(VibrationType.Gentle);
 			}
 		}
-		else if (hits) {
-			hits = false;
-			lineRenderer.startColor = Color.white;
-			lineRenderer.endColor = Color.white;
-			selectedMenuItem = null;
-			control.vibrate(VibrationType.Gentle);
+		else {
+			points[1] = transform.forward + new Vector3(0, 0, 20);
+			if (hits) {
+				hits = false;
+				lineRenderer.startColor = Color.white;
+				lineRenderer.endColor = Color.white;
+				selectedMenuItem = null;
+				control.vibrate(VibrationType.Gentle);
+			}
 		}
+		lineRenderer.SetPositions(points);
 	}
 
 	void clickButton() {
